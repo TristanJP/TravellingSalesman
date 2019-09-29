@@ -1,5 +1,5 @@
 import random
-import itertools
+from itertools import permutations
 import math
 
 travel_map = {
@@ -115,22 +115,26 @@ def brute_force_shortest():
     print(f'{cost}:\n{shortest_routes}')
 
 def get_all_city_perms(city_list):
-    return itertools.permutations(city_list)
+    return list(permutations(city_list))
 
-def find_shortest_routes(file_name):
+def find_shortest_routes(file_name, randomly):
     cities_map = get_cities_from_file(file_name)
 
     cities_list = get_list_of_cities(cities_map)
 
     all_routes = get_all_city_perms(cities_list)
 
+    if randomly:
+        random.shuffle(all_routes)
+
     shortest_routes = []
     cost = 1000
     i = 1
+
     for route in all_routes:
         new_cost = get_cost_of_cities_route(route, cities_map)
 
-        print(f"{i}: {new_cost} - {route}      - {cost}")
+        print(f"{i}: {new_cost:.14f} - {route}           [{cost:.14f}]")
         i += 1
         if cost > new_cost:
             cost = new_cost
@@ -138,6 +142,7 @@ def find_shortest_routes(file_name):
         elif cost == new_cost:
             shortest_routes.append(route)
     
-    print(f'{cost}:\n{shortest_routes}')
+    print("\n======= FINISHED =======")
+    print(f'Shortest Size: {cost}\nShortest Routes:\n{shortest_routes}')
         
-find_shortest_routes("ulysses16(1).csv")
+find_shortest_routes("ulysses16(3).csv", False)
