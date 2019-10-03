@@ -40,8 +40,8 @@ def get_cost_of_cities_route(route, cities_map):
 def get_cost_between_cities(cities_map, city_1, city_2):
 
     return distance_between_coords(cities_map[city_1][0],
-                                   cities_map[city_1][1],
                                    cities_map[city_2][0],
+                                   cities_map[city_1][1],
                                    cities_map[city_2][1])
 
 def get_cities_from_file(file_name):

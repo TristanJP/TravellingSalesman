@@ -55,7 +55,7 @@ class Main {
     }
 
     private static Double getDistanceBetweenCities(int city1, int city2, ArrayList<List<Double>> cityMap) {
-        return (Double) Math.sqrt(Math.pow((cityMap.get(city1).get(1) - cityMap.get(city1).get(0)), 2) +  Math.pow((cityMap.get(city2).get(1) - cityMap.get(city2).get(0)), 2));
+        return (Double) Math.sqrt(Math.pow((cityMap.get(city1).get(0) - cityMap.get(city2).get(0)), 2) +  Math.pow((cityMap.get(city1).get(1) - cityMap.get(city2).get(1)), 2));
     }
 
     private static void getShortestRoute(ArrayList<List<Double>> cityMap) {
