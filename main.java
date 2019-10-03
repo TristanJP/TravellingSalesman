@@ -58,10 +58,19 @@ class Main {
         return (Double) Math.sqrt(Math.pow((cityMap.get(city1).get(0) - cityMap.get(city2).get(0)), 2) +  Math.pow((cityMap.get(city1).get(1) - cityMap.get(city2).get(1)), 2));
     }
 
+    private static int factorial(int size) {
+        int output = 1;
+        for (int i = 1; i <= size;) {
+            output = output * i;
+            i++;
+        }
+        return output;
+    }
+
     private static void getShortestRoute(ArrayList<List<Double>> cityMap) {
         LinkedHashSet<ArrayList<Integer>> routes = new LinkedHashSet<ArrayList<Integer>>();
 
-        for (int i = 0; i < 362880;) {
+        for (int i = 0; i < factorial(cityMap.size());) {
             ArrayList<Integer> route = getRandomRoutePermutation(cityMap); //= new ArrayList<Integer>(Arrays.asList(7, 4, 5, 8, 6, 0, 2, 3, 1));// = getRandomRoutePermutation(cityMap);
             int oldSize = routes.size();
             routes.add(route);
