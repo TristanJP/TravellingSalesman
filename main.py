@@ -123,7 +123,7 @@ def get_limited_routes(city_list, limit):
     while len(output) <= limit:
         random.shuffle(city_list)
         if city_list not in output:
-            output.append([city_list])
+            output.append(city_list.copy())
     
     return output
 
