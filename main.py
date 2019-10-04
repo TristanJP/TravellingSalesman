@@ -1,5 +1,5 @@
 import random
-import itertools
+from itertools import permutations
 import math
 
 travel_map = {
@@ -40,8 +40,8 @@ def get_cost_of_cities_route(route, cities_map):
 def get_cost_between_cities(cities_map, city_1, city_2):
 
     return distance_between_coords(cities_map[city_1][0],
-                                   cities_map[city_1][1],
                                    cities_map[city_2][0],
+                                   cities_map[city_1][1],
                                    cities_map[city_2][1])
 
 def get_cities_from_file(file_name):
@@ -115,7 +115,7 @@ def brute_force_shortest():
     print(f'{cost}:\n{shortest_routes}')
 
 def get_all_city_perms(city_list):
-    return itertools.permutations(city_list)
+    return list(permutations(city_list))
 
 def get_limited_routes(city_list, limit):
     output = []
@@ -127,7 +127,7 @@ def get_limited_routes(city_list, limit):
     
     return output
 
-def find_shortest_routes(file_name, limit):
+def find_shortest_routes(file_name, limit, randomly):
     cities_map = get_cities_from_file(file_name)
 
     cities_list = get_list_of_cities(cities_map)
@@ -137,13 +137,17 @@ def find_shortest_routes(file_name, limit):
     else:
         all_routes = get_limited_routes(cities_list, limit)
 
+    if randomly:
+        random.shuffle(all_routes)
+
     shortest_routes = []
     cost = 1000
     i = 1
+
     for route in all_routes:
         new_cost = get_cost_of_cities_route(route, cities_map)
 
-        print(f"{i}: {new_cost} - {route}      - {cost}")
+        print(f"{i}: {new_cost:.14f} - {route}           [{cost:.14f}]")
         i += 1
         if cost > new_cost:
             cost = new_cost
@@ -151,6 +155,7 @@ def find_shortest_routes(file_name, limit):
         elif cost == new_cost:
             shortest_routes.append(route)
     
-    print(f'{cost}:\n{shortest_routes}')
+    print("\n======= FINISHED =======")
+    print(f'Shortest Size: {cost}\nShortest Routes:\n{shortest_routes}')
         
-find_shortest_routes("ulysses16(3).csv", None)
+find_shortest_routes("ulysses16(3).csv", None, False)
