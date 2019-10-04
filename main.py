@@ -120,7 +120,7 @@ def get_all_city_perms(city_list):
 def get_limited_routes(city_list, limit):
     output = []
 
-    while len(output) <= limit:
+    while len(output) < limit:
         random.shuffle(city_list)
         if city_list not in output:
             output.append(city_list.copy())
@@ -158,4 +158,4 @@ def find_shortest_routes(file_name, limit, randomly):
     print("\n======= FINISHED =======")
     print(f'Shortest Size: {cost}\nShortest Routes:\n{shortest_routes}')
         
-find_shortest_routes("ulysses16(3).csv", None, False)
+find_shortest_routes("ulysses16(1).csv", 50, False)
