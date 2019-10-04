@@ -124,7 +124,6 @@ def get_limited_routes(city_list, limit):
         copy = city_list[1:]
         random.shuffle(copy)
         city_list[1:] = copy
-        print(city_list)
         if city_list not in output:
             output.append(city_list.copy())
     
@@ -150,7 +149,7 @@ def find_shortest_routes(file_name, limit, randomly):
     for route in all_routes:
         new_cost = get_cost_of_cities_route(route, cities_map)
 
-        #print(f"{i}: {new_cost:.14f} - {route}           [{cost:.14f}]")
+        print(f"{i}: {new_cost:.14f} - {route}           [{cost:.14f}]")
         i += 1
         if cost > new_cost:
             cost = new_cost
