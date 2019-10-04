@@ -117,12 +117,25 @@ def brute_force_shortest():
 def get_all_city_perms(city_list):
     return itertools.permutations(city_list)
 
-def find_shortest_routes(file_name):
+def get_limited_routes(city_list, limit):
+    output = []
+
+    while len(output) <= limit:
+        random.shuffle(city_list)
+        if city_list not in output:
+            output.append([city_list])
+    
+    return output
+
+def find_shortest_routes(file_name, limit):
     cities_map = get_cities_from_file(file_name)
 
     cities_list = get_list_of_cities(cities_map)
 
-    all_routes = get_all_city_perms(cities_list)
+    if limit == None:
+        all_routes = get_all_city_perms(cities_list)
+    else:
+        all_routes = get_limited_routes(cities_list, limit)
 
     shortest_routes = []
     cost = 1000
@@ -140,4 +153,4 @@ def find_shortest_routes(file_name):
     
     print(f'{cost}:\n{shortest_routes}')
         
-find_shortest_routes("ulysses16(1).csv")
+find_shortest_routes("ulysses16(3).csv", None)
