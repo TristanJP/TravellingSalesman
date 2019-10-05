@@ -165,3 +165,26 @@ def find_shortest_routes(file_name, route_limit, all_randomly):
     print(f'Shortest Size: {cost}\nShortest Routes:\n{shortest_routes}')
         
 find_shortest_routes("ulysses16(3).csv", None, True)
+
+def two_opt_swap(route):
+    random_cities = random.sample(range(0,len(route)), 2)
+
+    new_route = route.copy()
+
+    new_route[random_cities[0]] = route[random_cities[1]]
+    new_route[random_cities[1]] = route[random_cities[0]]
+    return new_route
+
+def two_opt_neighbourhood(route):
+    neighbourhood = []
+
+    x = len(route)
+    y = (x * (((1/2) * x) - (1/2)))
+
+    while len(neighbourhood) < y:
+        new_route = two_opt_swap(route)
+
+        if new_route not in neighbourhood:
+            neighbourhood.append(new_route)
+    
+    return neighbourhood
