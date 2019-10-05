@@ -1,3 +1,6 @@
+###################################
+# FIrst Iteration, testing script
+
 import random
 from itertools import permutations
 import math
