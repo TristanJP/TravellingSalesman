@@ -4,6 +4,7 @@
 import random
 from itertools import permutations
 import math
+import time
 
 travel_map = {
     'a': {'a': 0, 'b': 20, 'c': 42, 'd': 35},
@@ -163,8 +164,13 @@ def find_shortest_routes(file_name, route_limit, all_randomly):
     
     print("\n======= FINISHED =======")
     print(f'Shortest Size: {cost}\nShortest Routes:\n{shortest_routes}')
-        
-find_shortest_routes("ulysses16(3).csv", None, True)
+
+start_time = time.time()
+
+find_shortest_routes("ulysses16(3).csv", None, False)
+
+end_time = time.time()
+print(end_time - start_time)
 
 def two_opt_swap(route):
     random_cities = random.sample(range(0,len(route)), 2)
