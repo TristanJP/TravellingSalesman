@@ -62,7 +62,6 @@ def find_shortest_routes_randomly(cities_map, time_limit):
     elapsed_time = 0
     while elapsed_time < time_limit:
         route = generate_random_route(cities_list)
-        print(route)
         new_cost = get_cost_of_route(route, cities_map)
 
         print(f"{i}: {new_cost:.14f} - {route}           [{cost:.14f}]")
@@ -148,16 +147,15 @@ def find_shortest_routes_with_neighbourhood(cities_map, time_limit):
 start_time = time.time()
 
 
-cities_map = get_cities_from_file("ulysses16(1).csv")
+cities_map = get_cities_from_file("ulysses16(3).csv")
 
 #rand_shortest = find_shortest_routes_randomly(cities_map, 10)
 
-local_search = find_shortest_routes_with_neighbourhood(cities_map, 1)
+#local_search = find_shortest_routes_with_neighbourhood(cities_map, 1)
 
+print(get_cost_of_route([1,2,3,7,0,6,5,4,8], cities_map))
 
 ## Program End
 end_time = time.time()
 ## ======================================================================
 print(f"\n\nTime: {end_time-start_time}\n========================================")
-
-
