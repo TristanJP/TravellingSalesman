@@ -4,11 +4,14 @@ use std::env;
 use std::fs;
 use rand::prelude::*;
 use permutohedron::heap_recursive;
+use std::time::{{Instant}};
 
 fn main() {
 
     let args: Vec<String> = env::args().collect();
     let filename = &args[1];
+
+    let start_timer = Instant::now();
 
     let cities_map = get_cities_from_file(filename);
     let mut cities_list = get_cities_list(&cities_map);
@@ -21,8 +24,13 @@ fn main() {
     // println!("{}", get_cost_between_cities(cities_list[0], cities_list[1], &cities_map));
     // println!("{}", get_cost_of_route(&cities_list, &cities_map));
     // println!("{}", get_all_route_permutations(&mut cities_list).len());
-    //get_shortest_route_randomly(&cities_map, &mut cities_list)    
-     //println!("{:?}", get_neighbourhood(&mut cities_list));
+    // get_shortest_route_with_perms(&cities_map, &mut cities_list);
+    // println!("{:?}", get_neighbourhood(&mut cities_list));
+
+    get_shortest_route_with_neighbourhood(&cities_map, &mut cities_list, 1000);
+
+     let end_timer = Instant::now();
+     println!("\n\nTime: {:?}\n========================================", end_timer.duration_since(start_timer));
 
 }
 
@@ -85,7 +93,7 @@ fn get_cost_of_route(route: &Vec<i32>, cities_map: &Vec<[f32; 2]>) -> f32 {
     total + get_cost_between_cities(route[i as usize], route[0 as usize], cities_map)
 }
 
-fn get_shortest_route_randomly(cities_map: &Vec<[f32; 2]>, cities_list: &mut Vec<i32>) {
+fn get_shortest_route_with_perms(cities_map: &Vec<[f32; 2]>, cities_list: &mut Vec<i32>) {
 
     let mut shortest_cost: f32 = get_cost_of_route(&cities_list, cities_map);
     let mut shortest_route: Vec<i32> = cities_list.as_slice().to_vec();
@@ -137,6 +145,42 @@ fn get_shortest_in_neighbourhood(neighbourhood: &mut Vec<Vec<i32>>, cities_map: 
     (shortest_route, shortest_cost)
 }
 
-fn get_shortest_route_with_neighbourhood(cities_map: &Vec<[f32; 2]>, city_list: &Vec<i32>) {
-    
+fn get_shortest_route_with_neighbourhood(cities_map: &Vec<[f32; 2]>, city_list: &mut Vec<i32>, time_limit: u128) {
+    let start_time = Instant::now();
+
+    let mut shortest_route = generate_random_route(city_list).as_slice().to_vec();
+    let mut route = shortest_route.as_slice().to_vec();
+
+    let mut elapsed_time: u128 = 0;
+    let mut i: i32 = 1;
+
+    while elapsed_time < time_limit {
+        let mut neighbourhood = get_neighbourhood(&mut route);
+        let new_route_and_cost = get_shortest_in_neighbourhood(&mut neighbourhood, cities_map);
+
+        if route == new_route_and_cost.0 {  
+            let new_cost = new_route_and_cost.1;
+
+            if new_cost < get_cost_of_route(&shortest_route, cities_map) {
+                shortest_route = new_route_and_cost.0.as_slice().to_vec();
+                //println!("New Shortest: {:?}    [{}]", &shortest_route, &new_cost);
+            }
+            // else {
+            //     println!("Local Best not short enough.");
+            // }
+            route = generate_random_route(city_list).as_slice().to_vec();
+        }
+        else {
+            route = new_route_and_cost.0;
+        }
+
+        //println!("{}: {:?}    [{}]", i, route, new_route_and_cost.1);
+
+        i = i + 1;
+
+        elapsed_time = (Instant::now() - start_time).as_millis();
+    }
+
+    println!("\n=============== FINISHED ===============\nShortest Size: {}\nShortest Route: {:?}\nChecked: {} routes", get_cost_of_route(&shortest_route, cities_map), shortest_route, i);
+
 }

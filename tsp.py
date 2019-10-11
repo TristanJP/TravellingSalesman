@@ -122,21 +122,21 @@ def find_shortest_routes_with_neighbourhood(cities_map, time_limit):
             new_cost = get_cost_of_route(new_route, cities_map)
             if get_cost_of_route(shortest_route, cities_map) > new_cost:
                 shortest_route = new_route
-                print(f"New Shortest: {shortest_route}  [{new_cost}]")
-            else:
-                print("Local best not short enough.")
+                #print(f"New Shortest: {shortest_route}  [{new_cost}]")
+            #else:
+                #print("Local best not short enough.")
             route = generate_random_route(cities_list)
             
         else:
             route = new_route
 
 
-        print(f'{i}: {route}    [{get_cost_of_route(route, cities_map)}]')
+        #print(f'{i}: {route}    [{get_cost_of_route(route, cities_map)}]')
         i += 1
 
         elapsed_time = time.time() - start_time
     
-    print(f"\n=============== FINISHED ===============\nShortest Size: {get_cost_of_route(shortest_route, cities_map)}\nShortest Routes: {shortest_route}")
+    print(f"\n=============== FINISHED ===============\nShortest Size: {get_cost_of_route(shortest_route, cities_map)}\nShortest Routes: {shortest_route}\nChecked {i} solutions")
 
     return shortest_route
 
@@ -147,13 +147,13 @@ def find_shortest_routes_with_neighbourhood(cities_map, time_limit):
 start_time = time.time()
 
 
-cities_map = get_cities_from_file("ulysses16(3).csv")
+cities_map = get_cities_from_file("ulysses16(1).csv")
 
 #rand_shortest = find_shortest_routes_randomly(cities_map, 10)
 
-#local_search = find_shortest_routes_with_neighbourhood(cities_map, 1)
+local_search = find_shortest_routes_with_neighbourhood(cities_map, 1)
 
-print(get_cost_of_route([1,2,3,7,0,6,5,4,8], cities_map))
+#print(get_cost_of_route([1,2,3,7,0,6,5,4,8], cities_map))
 
 ## Program End
 end_time = time.time()

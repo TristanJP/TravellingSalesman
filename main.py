@@ -154,23 +154,23 @@ def find_shortest_routes(file_name, route_limit, all_randomly):
     for route in all_routes:
         new_cost = get_cost_of_cities_route(route, cities_map)
 
-        print(f"{i}: {new_cost:.14f} - {route}           [{cost:.14f}]")
+        #print(f"{i}: {new_cost:.14f} - {route}           [{cost:.14f}]")
         i += 1
         if cost > new_cost:
             cost = new_cost
             shortest_routes = [route]
-        elif cost == new_cost:
-            shortest_routes.append(route)
+        # elif cost == new_cost:
+        #     shortest_routes.append(route)
     
     print("\n======= FINISHED =======")
     print(f'Shortest Size: {cost}\nShortest Routes:\n{shortest_routes}')
 
 start_time = time.time()
 
-find_shortest_routes("ulysses16(3).csv", None, False)
+find_shortest_routes("../ulysses16(3).csv", None, False)
 
 end_time = time.time()
-print(end_time - start_time)
+print(f"Time: {end_time - start_time}")
 
 def two_opt_swap(route):
     random_cities = random.sample(range(0,len(route)), 2)
