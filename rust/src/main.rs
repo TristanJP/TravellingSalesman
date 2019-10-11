@@ -89,12 +89,9 @@ fn get_shortest_route_randomly(cities_map: &Vec<[f32; 2]>, cities_list: &mut Vec
 
     let mut shortest_cost: f32 = get_cost_of_route(&cities_list, cities_map);
     let mut shortest_route: Vec<i32> = cities_list.as_slice().to_vec();
-    let mut i: i32 = 1;
 
     for route in get_all_route_permutations(cities_list) {
-        let mut new_cost: f32 = get_cost_of_route(&route, cities_map);
-        //println!("{}: {:?}     [{}]", &i, &route, &new_cost);
-        i = i + 1;
+        let new_cost: f32 = get_cost_of_route(&route, cities_map);
 
         if new_cost < shortest_cost {
             shortest_cost = new_cost;
@@ -108,9 +105,7 @@ fn get_shortest_route_randomly(cities_map: &Vec<[f32; 2]>, cities_list: &mut Vec
 
 fn get_neighbourhood(route: &mut Vec<i32>) -> Vec<Vec<i32>> {
     let mut neighbourhood: Vec<Vec<i32>> = Vec::new();
-
     let mut city_1: i32 = 0;
-
     while city_1 < route.len() as i32 {
         let mut city_2: i32 = 0;
         while city_2 < route.len() as i32 {
@@ -124,6 +119,24 @@ fn get_neighbourhood(route: &mut Vec<i32>) -> Vec<Vec<i32>> {
         }
         city_1 = city_1 + 1;
     }
-
     neighbourhood
+}
+
+fn get_shortest_in_neighbourhood(neighbourhood: &mut Vec<Vec<i32>>, cities_map: &Vec<[f32; 2]>) -> (Vec<i32>, f32) {
+    let mut shortest_cost: f32 = get_cost_of_route(&neighbourhood[0], cities_map);
+    let mut shortest_route: Vec<i32> = neighbourhood[0].as_slice().to_vec();
+
+    for route in neighbourhood {
+        let new_cost: f32 = get_cost_of_route(&route, cities_map);
+
+        if new_cost < shortest_cost {
+            shortest_cost = new_cost;
+            shortest_route = route.as_slice().to_vec();
+        }
+    }
+    (shortest_route, shortest_cost)
+}
+
+fn get_shortest_route_with_neighbourhood(cities_map: &Vec<[f32; 2]>, city_list: &Vec<i32>) {
+    
 }
