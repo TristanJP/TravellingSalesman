@@ -17,13 +17,7 @@ def get_cities_from_file(file_name):
     return cities_map
 
 def get_list_of_cities(cities_map):
-    i = 0
-    city_list = []
-    while i < len(cities_map):
-        city_list += [i]
-        i += 1
-
-    return city_list
+    return list(range(len(cities_map)))
 
 def get_cost_of_route(route, cities_map):
     total = 0
